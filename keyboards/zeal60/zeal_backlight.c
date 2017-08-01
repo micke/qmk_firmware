@@ -25,12 +25,12 @@ zeal_backlight_config g_config = {
 	.brightness = 255,
 	.effect = 255, // Default to RGB test, so Zeal can flash and test in one pass!
 	.effect_speed = 0,
-	.color_1 = { .h = 0, .s = 255, .v = 255 },
-	.color_2 = { .h = 127, .s = 255, .v = 255 },
+	.color_1 = { .h = 0, .s = 0, .v = 255 },
+	.color_2 = { .h = 20, .s = 255, .v = 255 },
 	.caps_lock_indicator = { .color = { .h = 0, .s = 0, .v = 255 }, .index = 255 },
-	.layer_1_indicator = { .color = { .h = 0, .s = 0, .v = 255 }, .index = 255 },
-	.layer_2_indicator = { .color = { .h = 0, .s = 0, .v = 255 }, .index = 255 },
-	.layer_3_indicator = { .color = { .h = 0, .s = 0, .v = 255 }, .index = 255 },
+	.layer_1_indicator = { .color = { .h = 165, .s = 255, .v = 255 }, .index = 254 },
+	.layer_2_indicator = { .color = { .h = 20, .s = 255, .v = 255 }, .index = 254 },
+	.layer_3_indicator = { .color = { .h = 84, .s = 255, .v = 255 }, .index = 255 },
 	.alphas_mods = {
 		BACKLIGHT_ALPHAS_MODS_ROW_0,
 		BACKLIGHT_ALPHAS_MODS_ROW_1,
