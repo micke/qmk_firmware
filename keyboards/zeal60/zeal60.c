@@ -352,38 +352,6 @@ uint16_t keymap_function_id_to_action( uint16_t function_id )
 	return pgm_read_word(&fn_actions[function_id]);
 }
 
-
-// Zeal60 specific "action functions"
-void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
-{
-	switch (id)
-	{
-	case TRIPLE_TAP_1_3:
-	case TRIPLE_TAP_2_3:
-		if (record->event.pressed)
-		{
-			layer_on( id == TRIPLE_TAP_1_3 ? 1 : 2 );
-
-			if (record->tap.count && !record->tap.interrupted)
-			{
-				if (record->tap.count >= 3)
-				{
-					layer_invert(3);
-				}
-			}
-			else
-			{
-				record->tap.count = 0;
-			}
-		}
-		else
-		{
-			layer_off( id == TRIPLE_TAP_1_3 ? 1 : 2 );
-		}
-		break;
-	}
-}
-
 void led_set_kb(uint8_t usb_led)
 {
 	backlight_set_indicator_state(usb_led);
