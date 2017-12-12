@@ -26,7 +26,7 @@ zeal_backlight_config g_config = {
 	.effect = 2, // Default to RGB test, so Zeal can flash and test in one pass!
 	.effect_speed = 0,
 	.color_1 = { .h = 0, .s = 0, .v = 255 },
-	.color_2 = { .h = 20, .s = 255, .v = 255 },
+	.color_2 = { .h = 204, .s = 255, .v = 255 },
 	.caps_lock_indicator = { .color = { .h = 0, .s = 0, .v = 255 }, .index = 255 },
 	.layer_1_indicator = { .color = { .h = 165, .s = 255, .v = 255 }, .index = 254 },
 	.layer_2_indicator = { .color = { .h = 20, .s = 255, .v = 255 }, .index = 254 },
@@ -365,7 +365,7 @@ void backlight_effect_all_off(void)
 // Solid color
 void backlight_effect_solid_color(void)
 {
-	HSV hsv = { .h = g_config.color_1.h, .s = g_config.color_1.s, .v = g_config.brightness };
+	HSV hsv = { .h = g_config.color_2.h, .s = g_config.color_2.s, .v = g_config.brightness };
 	RGB rgb = hsv_to_rgb( hsv );
 	backlight_set_color_all( rgb.r, rgb.g, rgb.b );
 }
