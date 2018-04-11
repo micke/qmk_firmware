@@ -11,7 +11,7 @@
 #include "zeal_color.h"
 #include "IS31FL3731_driver.h"
 
-#define BACKLIGHT_EFFECT_MAX 11
+#define BACKLIGHT_EFFECT_MAX 12
 
 zeal_backlight_config g_config = {
 	.use_split_backspace = BACKLIGHT_USE_SPLIT_BACKSPACE,
@@ -26,7 +26,7 @@ zeal_backlight_config g_config = {
 	.effect = 2, // Default to RGB test, so Zeal can flash and test in one pass!
 	.effect_speed = 0,
 	.color_1 = { .h = 0, .s = 0, .v = 255 },
-	.color_2 = { .h = 204, .s = 255, .v = 255 },
+	.color_2 = { .h = 23, .s = 255, .v = 255 },
 	.caps_lock_indicator = { .color = { .h = 0, .s = 0, .v = 255 }, .index = 255 },
 	.layer_1_indicator = { .color = { .h = 165, .s = 255, .v = 255 }, .index = 254 },
 	.layer_2_indicator = { .color = { .h = 20, .s = 255, .v = 255 }, .index = 254 },
@@ -616,6 +616,20 @@ void backlight_effect_cycle_radial2(void)
 	}
 }
 
+void backlight_effect_hjkl(void)
+{
+	RGB alpha = { .r = 255, .g = 255, .b = 255 };
+	RGB accent = { .r = 0, .g = 255, .b = 0 };
+
+	backlight_set_color_all( alpha.r, alpha.g, alpha.b );
+
+	for ( int column = 6; column < 10; column++ ) {
+    uint8_t index;
+    map_row_column_to_led( 2, column, &index );
+    backlight_set_color( index, accent.r, accent.g, accent.b );
+  }
+}
+
 void backlight_effect_custom(void)
 {
 	HSV hsv;
@@ -786,6 +800,9 @@ ISR(TIMER3_COMPA_vect)
 		case 10:
 			backlight_effect_cycle_radial2();
 			break;
+    case 11:
+      backlight_effect_hjkl();
+      break;
 		default:
 			backlight_effect_custom();
 			break;

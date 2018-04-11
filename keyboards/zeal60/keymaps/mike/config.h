@@ -3,9 +3,6 @@
 
 #include "../../config.h"
 
-#undef TAPPING_TOGGLE
-#define TAPPING_TOGGLE 1
-
 /* enable/disable LEDs based on layout */
 #undef BACKLIGHT_USE_SPLIT_BACKSPACE
 #define BACKLIGHT_USE_SPLIT_BACKSPACE 1
@@ -41,7 +38,8 @@
 
 #define PREVENT_STUCK_MODIFIERS
 #define IGNORE_MOD_TAP_INTERRUPT
-#define TAPPING_FORCE_HOLD
+#define PERMISSIVE_HOLD
+#define TAPPING_TERM 150
 
 #define FORCE_NKRO
 
