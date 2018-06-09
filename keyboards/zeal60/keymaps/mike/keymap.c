@@ -10,9 +10,9 @@
 #define _FUN2 3
 #define _SYS  4
 
-#define M_CLEP 0
-
-#define KC_CLEP M(M_CLEP)
+enum custom_keycodes {
+  KC_CLEP = SAFE_RANGE
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_DEFAULT] = {
@@ -49,26 +49,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
-const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
-    switch(id) {
-      case M_CLEP:
+    switch(keycode) {
+      case KC_CLEP:
         // Set the Zeal60 specific EEPROM state as invalid.
         eeprom_set_valid(false);
         // Set the TMK/QMK EEPROM state as invalid.
         eeconfig_disable();
         // Jump to bootloader.
         bootloader_jump();
-        break;
-      /* case M_LBRCA: */
-      /*   if (get_mods() & (MOD_BIT(KC_LALT) | MOD_BIT(KC_RALT))) { */
-      /*     register_code(UC(0xE5)); */
-      /*     unregister_code(UC(0xE5)); */
-      /*   } else { */
-      /*     SEND_STRING(SS_TAP(X_LBRC)); */
-      /*   } */
-      /*   break; */
+        return false;
     }
   }
-  return MACRO_NONE;
+  return true;
 };
