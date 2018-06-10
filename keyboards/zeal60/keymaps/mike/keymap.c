@@ -11,7 +11,10 @@
 #define _SYS  4
 
 enum custom_keycodes {
-  KC_CLEP = SAFE_RANGE
+  KC_CLEP = SAFE_RANGE,
+  KC_OSX,
+  KC_WIN,
+  KC_LIN
 };
 
 void non_clearing_layer_state_set(uint32_t state)
@@ -59,8 +62,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_SYS] = {
   {KC_CLEP,  EF_DEC,                EF_INC,              H1_DEC,  H1_INC,  H2_DEC,  H2_INC,  ______,           ______,             ______,  ______,  BR_DEC,  BR_INC,  ______},
-  {______,   ______,                ______,              S1_DEC,  S1_INC,  S2_DEC,  S2_INC,  ______,           ______,             ______,  ______,  ES_DEC,  ES_INC,  ______},
-  {______,   ______,                ______,              ______,  ______,  ______,  ______,  ______,           ______,             ______,  ______,  ______,  ______,  ______},
+  {______,   KC_WIN,                ______,              S1_DEC,  S1_INC,  S2_DEC,  S2_INC,  ______,           ______,             KC_OSX,  ______,  ES_DEC,  ES_INC,  ______},
+  {______,   ______,                ______,              ______,  ______,  ______,  ______,  ______,           ______,             KC_LIN,  ______,  ______,  ______,  ______},
   {______,   ______,                ______,              ______,  ______,  ______,  ______,  MAGIC_HOST_NKRO,  MAGIC_UNHOST_NKRO,  ______,  ______,  ______,  ______,  ______},
   {______,   MAGIC_UNSWAP_ALT_GUI,  MAGIC_SWAP_ALT_GUI,  ______,  ______,  ______,  ______,  ______,           ______,             ______,  ______,  ______,  ______,  ______}
 }
@@ -79,6 +82,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       // Jump to bootloader.
       bootloader_jump();
       return false;
+    case KC_OSX:
+      set_unicode_input_mode(UC_OSX);
+      return false;
+    case KC_WIN:
+      set_unicode_input_mode(UC_WIN);
+      return false;
+    case KC_LIN:
+      set_unicode_input_mode(UC_LNX);
+      return false;
     case QK_MOMENTARY ... QK_MOMENTARY_MAX:
       action_layer = keycode & 0xFF;
 
@@ -92,4 +104,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
 
   return true;
-};
+}
+
+void matrix_init_user(){
+  set_unicode_input_mode(UC_OSX);
+}
