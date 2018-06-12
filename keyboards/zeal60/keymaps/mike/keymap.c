@@ -3,18 +3,23 @@
 
 #define ______ KC_TRNS
 #define XXXXXX KC_NO
+#define KC_CAD LALT(LCTL(KC_DEL))
+#define KC_SPCOF LT(_FUN,  KC_SPC)
 
 #define _DEFAULT 0
-#define _SWEDISH 1
+#define _GAMING 1
 #define _FUN 2
 #define _FUN2 3
 #define _SYS  4
 
+enum {
+  TD_FUN_OR_SWITCH_DEFAULT  = 0
+};
+
+#define KC_FUN_OR_SWITCH_DEFAULT TD(TD_FUN_OR_SWITCH_DEFAULT)
+
 enum custom_keycodes {
-  KC_CLEP = SAFE_RANGE,
-  KC_OSX,
-  KC_WIN,
-  KC_LIN
+  KC_CLEP = SAFE_RANGE
 };
 
 void non_clearing_layer_state_set(uint32_t state)
@@ -37,27 +42,27 @@ void non_clearing_layer_off(uint8_t layer)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_DEFAULT] = {
-  {KC_ESC,   KC_1,     KC_2,     KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSLS},
-  {KC_TAB,   KC_Q,     KC_W,     KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,     KC_P,     KC_LBRC,  KC_RBRC,  KC_BSPC},
-  {KC_LCTL,  KC_A,     KC_S,     KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,     KC_SCLN,  KC_QUOT,  KC_ENT,   KC_GRV},
-  {KC_LSFT,  KC_NO,    KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,  MO(_FUN)},
-  {XXXXXX,   KC_LGUI,  KC_LALT,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  KC_SPC,  XXXXXX,  XXXXXX,   XXXXXX,   KC_RALT,  KC_RGUI,  XXXXXX}
+  {KC_ESC,   KC_1,     KC_2,     KC_3,    KC_4,    KC_5,    KC_6,    KC_7,      KC_8,    KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSLS},
+  {KC_TAB,   KC_Q,     KC_W,     KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,      KC_I,    KC_O,     KC_P,     KC_LBRC,  KC_RBRC,  KC_BSPC},
+  {KC_LCTL,  KC_A,     KC_S,     KC_D,    KC_F,    KC_G,    KC_H,    KC_J,      KC_K,    KC_L,     KC_SCLN,  KC_QUOT,  KC_ENT,   KC_GRV},
+  {KC_LSPO,  KC_NO,    KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,    KC_N,      KC_M,    KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSPC,  KC_FUN_OR_SWITCH_DEFAULT},
+  {XXXXXX,   KC_LGUI,  KC_LALT,  XXXXXX,  XXXXXX,  XXXXXX,  XXXXXX,  KC_SPCOF,  XXXXXX,  XXXXXX,   XXXXXX,   KC_RALT,  XXXXXX,   XXXXXX}
 },
 
-[_SWEDISH] = {
-  {______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,    ______,    ______,    ______},
-  {______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,    ______,    UC(0xE5),  ______},
-  {______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  UC(0xF6),  UC(0xE4),  ______,    ______},
-  {______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,    ______,    ______,    ______},
-  {______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,    ______,    ______,    ______}
+[_GAMING] = {
+  {______,   ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,   ______},
+  {______,   ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,   ______},
+  {______,   ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,   ______},
+  {KC_LSFT,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  KC_RSFT,  ______},
+  {______,   ______,  ______,  ______,  ______,  ______,  ______,  KC_SPC,  ______,  ______,  ______,  ______,  ______,   ______}
 },
 
 [_FUN] = {
-  {KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,   KC_F12,     ______},
-  {______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  KC_PSCR,  KC_UP,    ______,     ______},
-  {______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  KC_LEFT,  KC_RGHT,  ______,     ______},
-  {______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,   KC_DOWN,  MO(_FUN2),  ______},
-  {______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,   ______,   MO(_SYS),   ______}
+  {KC_CAD,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,    KC_F7,    KC_F8,   KC_F9,    KC_F10,   KC_F11,   KC_F12,     ______},
+  {______,  ______,  ______,  ______,  ______,  ______,  ______,   ______,   ______,  ______,   KC_PSCR,  KC_UP,    ______,     ______},
+  {______,  ______,  ______,  ______,  ______,  ______,  KC_LEFT,  KC_DOWN,  KC_UP,   KC_RGHT,  KC_LEFT,  KC_RGHT,  ______,     ______},
+  {______,  ______,  ______,  ______,  ______,  ______,  ______,   ______,   ______,  ______,   ______,   KC_DOWN,  ______,  ______},
+  {______,  ______,  ______,  ______,  ______,  ______,  ______,   ______,   ______,  ______,   ______,   ______,   ______,   ______}
 },
 
 [_FUN2] = {
@@ -65,13 +70,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   {______,  ______,  ______,  ______,  ______,  ______,  ______,   ______,   ______,   ______,   ______,   ______,  ______,  ______},
   {______,  ______,  ______,  ______,  ______,  ______,  KC_MRWD,  KC_VOLD,  KC_VOLU,  KC_MFFD,  KC_MPLY,  ______,  ______,  ______},
   {______,  ______,  ______,  ______,  ______,  ______,  ______,   ______,   ______,   ______,   ______,   ______,  ______,  ______},
-  {______,  ______,  ______,  ______,  ______,  ______,  ______,   ______,   ______,   ______,   ______,   ______,  ______,  ______}
+  {______,  ______,  ______,  ______,  ______,  ______,  ______,   ______,   ______,   ______,   ______,   ______,  MO(_SYS),  ______}
 },
 
 [_SYS] = {
   {KC_CLEP,  EF_DEC,                EF_INC,              H1_DEC,  H1_INC,  H2_DEC,  H2_INC,  ______,           ______,             ______,  ______,  BR_DEC,  BR_INC,  ______},
-  {______,   KC_WIN,                ______,              S1_DEC,  S1_INC,  S2_DEC,  S2_INC,  ______,           ______,             KC_OSX,  ______,  ES_DEC,  ES_INC,  ______},
-  {______,   ______,                ______,              ______,  ______,  ______,  ______,  ______,           ______,             KC_LIN,  ______,  ______,  ______,  ______},
+  {______,   ______,                ______,              S1_DEC,  S1_INC,  S2_DEC,  S2_INC,  ______,           ______,             ______,  ______,  ES_DEC,  ES_INC,  ______},
+  {______,   ______,                ______,              ______,  ______,  ______,  ______,  ______,           ______,             ______,  ______,  ______,  ______,  ______},
   {______,   ______,                ______,              ______,  ______,  ______,  ______,  MAGIC_HOST_NKRO,  MAGIC_UNHOST_NKRO,  ______,  ______,  ______,  ______,  ______},
   {______,   MAGIC_UNSWAP_ALT_GUI,  MAGIC_SWAP_ALT_GUI,  ______,  ______,  ______,  ______,  ______,           ______,             ______,  ______,  ______,  ______,  ______}
 }
@@ -90,15 +95,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       // Jump to bootloader.
       bootloader_jump();
       return false;
-    case KC_OSX:
-      set_unicode_input_mode(UC_OSX);
-      return false;
-    case KC_WIN:
-      set_unicode_input_mode(UC_WIN);
-      return false;
-    case KC_LIN:
-      set_unicode_input_mode(UC_LNX);
-      return false;
     case QK_MOMENTARY ... QK_MOMENTARY_MAX:
       action_layer = keycode & 0xFF;
 
@@ -114,6 +110,32 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-void matrix_init_user(){
-  set_unicode_input_mode(UC_OSX);
+void dance_switch_finished (qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 1) {
+    if (IS_LAYER_ON(_GAMING)) {
+      non_clearing_layer_on(_FUN);
+    } else {
+      non_clearing_layer_on(_FUN2);
+    }
+  } else {
+    if (IS_LAYER_ON(_GAMING)) {
+      non_clearing_layer_off(_GAMING);
+    } else {
+      non_clearing_layer_on(_GAMING);
+    }
+  }
 }
+
+void dance_switch_reset (qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count == 1) {
+    if (IS_LAYER_ON(_GAMING)) {
+      non_clearing_layer_off(_FUN);
+    } else {
+      non_clearing_layer_off(_FUN2);
+    }
+  }
+}
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [TD_FUN_OR_SWITCH_DEFAULT]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_switch_finished, dance_switch_reset)
+};
