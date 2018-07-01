@@ -22,24 +22,6 @@ enum custom_keycodes {
   KC_CLEP = SAFE_RANGE
 };
 
-void non_clearing_layer_state_set(uint32_t state)
-{
-    dprint("layer_state: ");
-    layer_debug(); dprint(" to ");
-    layer_state = state;
-    layer_debug(); dprintln();
-}
-
-void non_clearing_layer_on(uint8_t layer)
-{
-    non_clearing_layer_state_set(layer_state | (1UL<<layer));
-}
-
-void non_clearing_layer_off(uint8_t layer)
-{
-    non_clearing_layer_state_set(layer_state & ~(1UL<<layer));
-}
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_DEFAULT] = {
   {KC_ESC,   KC_1,     KC_2,     KC_3,    KC_4,    KC_5,    KC_6,    KC_7,      KC_8,    KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_BSLS},
@@ -84,8 +66,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  uint8_t action_layer;
-
   switch(keycode) {
     case KC_CLEP:
       // Set the Zeal60 specific EEPROM state as invalid.
@@ -95,16 +75,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       // Jump to bootloader.
       bootloader_jump();
       return false;
-    case QK_MOMENTARY ... QK_MOMENTARY_MAX:
-      action_layer = keycode & 0xFF;
-
-      if (record->event.pressed) {
-        non_clearing_layer_on(action_layer);
-      } else {
-        non_clearing_layer_off(action_layer);
-      }
-
-      return false;
   }
 
   return true;
@@ -113,15 +83,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void dance_switch_finished (qk_tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
     if (IS_LAYER_ON(_GAMING)) {
-      non_clearing_layer_on(_FUN);
+      layer_on(_FUN);
     } else {
-      non_clearing_layer_on(_FUN2);
+      layer_on(_FUN2);
     }
   } else {
     if (IS_LAYER_ON(_GAMING)) {
-      non_clearing_layer_off(_GAMING);
+      layer_off(_GAMING);
     } else {
-      non_clearing_layer_on(_GAMING);
+      layer_on(_GAMING);
     }
   }
 }
@@ -129,9 +99,9 @@ void dance_switch_finished (qk_tap_dance_state_t *state, void *user_data) {
 void dance_switch_reset (qk_tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
     if (IS_LAYER_ON(_GAMING)) {
-      non_clearing_layer_off(_FUN);
+      layer_off(_FUN);
     } else {
-      non_clearing_layer_off(_FUN2);
+      layer_off(_FUN2);
     }
   }
 }
