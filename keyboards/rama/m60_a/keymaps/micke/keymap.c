@@ -1,5 +1,5 @@
-// M60-A layout
 #include QMK_KEYBOARD_H
+#include "keyboards/zeal60/zeal60.h"
 
 #define ______ KC_TRNS
 #define XXXXXX KC_NO
@@ -13,11 +13,17 @@
 #define _FUN2 3
 #define _SYS  4
 
+extern void eeprom_reset(void);
+
 enum {
   TD_FUN_OR_SWITCH_DEFAULT  = 0
 };
 
 #define KC_FUN_OR_SWITCH_DEFAULT TD(TD_FUN_OR_SWITCH_DEFAULT)
+
+enum custom_keycodes {
+  KC_CLEP = SAFE_RANGE
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -54,13 +60,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // Fn3 Layer (zeal60 Configuration)
 [_SYS] = LAYOUT_60_hhkb(
-  ______,                       EF_DEC,             EF_INC, H1_DEC, H1_INC,  H2_DEC, H2_INC, ______,          ______,            ______, ______, BR_DEC, BR_INC, ______, ______,
+  KC_CLEP,                      EF_DEC,             EF_INC, H1_DEC, H1_INC,  H2_DEC, H2_INC, ______,          ______,            ______, ______, BR_DEC, BR_INC, ______, ______,
   ______,                       ______,             ______, S1_DEC, S1_INC,  S2_DEC, S2_INC, ______,          ______,            ______, ______, ES_DEC, ES_INC, ______,
   ______,                       ______,             ______, ______, ______,  ______, ______, ______,          ______,            ______, ______, ______, ______,
   ______,                       ______,             ______, ______, ______,  ______, ______, MAGIC_HOST_NKRO, MAGIC_UNHOST_NKRO, ______, ______, ______, ______,
           MAGIC_UNSWAP_ALT_GUI, MAGIC_SWAP_ALT_GUI, ______, ______, ______),
-
 };
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch(keycode) {
+    case KC_CLEP:
+      eeprom_reset();
+      bootloader_jump();
+      return false;
+  }
+
+  return true;
+}
 
 void dance_switch_finished (qk_tap_dance_state_t *state, void *user_data) {
   if (state->count == 1) {
